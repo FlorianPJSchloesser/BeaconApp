@@ -114,7 +114,7 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
     private boolean beaconAlreadyExist(Beacon beacon) {
         return false;
     }
-    
+
     public class BeaconListViewHolder extends RecyclerView.ViewHolder {
 
         public View mClickableView;

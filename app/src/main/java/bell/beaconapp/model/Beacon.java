@@ -25,4 +25,7 @@ public class Beacon {
         return new Random().nextInt(100);
     }
 
+    public String getUUID() {
+        return "This is just a test";
+    }
 }
