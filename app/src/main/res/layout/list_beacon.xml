@@ -27,7 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/beacon_title"
         android:layout_marginTop="4dp"
-        android:text="10m"/>
+        android:text="10m"
+        android:id="@+id/beacon_list_distance"/>
 
         </RelativeLayout>
 

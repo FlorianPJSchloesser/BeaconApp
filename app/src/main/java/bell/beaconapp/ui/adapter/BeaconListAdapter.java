@@ -51,7 +51,7 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
      * @param beacon Beacon to add.
      */
     public void add(Beacon beacon) {
-        if (beaconAlreadyExist(beacon)) {
+        if (mDataSet.contains(beacon)) {
             int beaconIndex = getIndexOfBeacon(beacon);
             mDataSet.remove(beacon);
             mDataSet.add(beaconIndex, beacon);
@@ -104,16 +104,21 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
 
     private int getIndexOfBeacon(Beacon beacon) {
         for (int i = 0; i < mDataSet.size(); i++) {
-            if (beacon.getUUID().equals(mDataSet.get(i).getUUID())) {
+            if (beacon.getUuid().equals(mDataSet.get(i).getUuid())) {
                 return i;
             }
         }
         return 0;
     }
 
-    private boolean beaconAlreadyExist(Beacon beacon) {
+    /*private boolean beaconAlreadyExist(Beacon beacon) {
+        for (int i = 0; i < mDataSet.size(); i++) {
+            if (beacon.equals(mDataSet.get(i))) {
+                return true;
+            }
+        }
         return false;
-    }
+    }*/
 
     public class BeaconListViewHolder extends RecyclerView.ViewHolder {
 
@@ -122,6 +127,8 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
         public View mList;
         public TextView mListTitle;
         public TextView mDetailTitle;
+        public TextView mListDistance;
+        public TextView mDetailDistance;
 
         public BeaconListViewHolder(View itemView) {
             super(itemView);
@@ -130,12 +137,15 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
             mList = (View) itemView.findViewById(R.id.beacon_list);
             mListTitle = (TextView) itemView.findViewById(R.id.beacon_title);
             mDetailTitle = (TextView) itemView.findViewById(R.id.beacon_detail_title);
+            mListDistance = (TextView) itemView.findViewById(R.id.beacon_list_distance);
+            mDetailDistance = (TextView) itemView.findViewById(R.id.beacon_detail_distance);
         }
 
         public void applyBeacon(Beacon beacon) {
-            mListTitle.setText(beacon.getTitle());
-            mDetailTitle.setText(beacon.getTitle());
-
+            mListTitle.setText(beacon.getDeviceName());
+            mDetailTitle.setText(beacon.getDeviceName());
+            mListDistance.setText(beacon.getDistance() + "m");
+            mDetailDistance.setText(beacon.getDistance() + "m");
         }
     }
 }

@@ -1,5 +1,8 @@
 package bell.beaconapp;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
@@ -16,20 +19,34 @@ import bell.beaconapp.ui.views.LockableViewPager;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final static int REQUEST_LOCATION_PERMISSION = 289374646;
+
     /* UI */
     BottomNavigationView mBottomNavigation;
     LockableViewPager mContentPager;
     Toolbar mAppBar;
+
+    boolean mInit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (Build.VERSION.SDK_INT >= 23 && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
+        } else {
+            init();
+        }
+    }
+
+    private void init() {
+        if (mInit) return;
         assignViews();
         prepareAppBar();
         prepareBottomNavigation();
         preparePager();
+        mInit = true;
     }
 
     private void prepareAppBar() {
@@ -65,5 +82,26 @@ public class MainActivity extends AppCompatActivity {
         mBottomNavigation = (BottomNavigationView) findViewById(R.id.main_bottom_navigation);
         mContentPager = (LockableViewPager) findViewById(R.id.main_view_pager);
         mAppBar = (Toolbar) findViewById(R.id.main_appbar);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_LOCATION_PERMISSION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    init();
+
+                } else {
+
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 }
