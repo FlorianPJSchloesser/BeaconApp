@@ -1,6 +1,7 @@
 package bell.beaconapp.ui.fragments;
 
 import android.Manifest;
+import android.app.NotificationManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
@@ -10,12 +11,15 @@ import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -33,7 +37,7 @@ import bell.beaconapp.ui.adapter.BeaconListAdapter;
 /**
  * Created by Florian Schlösser on 08.02.2017.
  */
-public class ScanFragment extends Fragment {
+public class ScanFragment extends Fragment implements BeaconListAdapter.OnBeaconAddedListener {
 
     public final static String TAG = ScanFragment.class.getSimpleName();
 
@@ -76,6 +80,7 @@ public class ScanFragment extends Fragment {
         mBeaconsList = (RecyclerView) root.findViewById(R.id.scan_recycler);
 
         mBeaconListAdapter = new BeaconListAdapter(getContext());
+        mBeaconListAdapter.setOnBeaconAddedListener(this);
 
         mBeaconsList.setLayoutManager(new LinearLayoutManager(getContext()));
         mBeaconsList.setAdapter(mBeaconListAdapter);
@@ -137,4 +142,13 @@ public class ScanFragment extends Fragment {
         return hexString.toString();
     }
 
+    @Override
+    public void onBeaconAdded(final Beacon beacon) {
+        Snackbar.make(getView(), R.string.snackbar_beacon_added, Snackbar.LENGTH_LONG).setAction(R.string.action_expand, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mBeaconListAdapter.setExpanded(beacon);
+            }
+        }).show();
+    }
 }

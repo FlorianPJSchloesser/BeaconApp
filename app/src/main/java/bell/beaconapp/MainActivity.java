@@ -1,13 +1,12 @@
 package bell.beaconapp;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView mBottomNavigation;
     LockableViewPager mContentPager;
     Toolbar mAppBar;
+    View mPermissionLayout;
 
     boolean mInit = false;
 
@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        assignViews();
 
         if (Build.VERSION.SDK_INT >= 23 && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
@@ -42,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         if (mInit) return;
-        assignViews();
         prepareAppBar();
         prepareBottomNavigation();
         preparePager();
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         mBottomNavigation = (BottomNavigationView) findViewById(R.id.main_bottom_navigation);
         mContentPager = (LockableViewPager) findViewById(R.id.main_view_pager);
         mAppBar = (Toolbar) findViewById(R.id.main_appbar);
+        mPermissionLayout = findViewById(R.id.main_permission);
     }
 
     @Override
@@ -92,10 +94,18 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
+                    mPermissionLayout.setVisibility(View.GONE);
                     init();
 
                 } else {
-
+                    mPermissionLayout.setVisibility(View.VISIBLE);
+                    mPermissionLayout.findViewById(R.id.permission_button).setOnClickListener(new View.OnClickListener() {
+                        @SuppressLint("NewApi")
+                        @Override
+                        public void onClick(View view) {
+                            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
+                        }
+                    });
                 }
                 return;
             }

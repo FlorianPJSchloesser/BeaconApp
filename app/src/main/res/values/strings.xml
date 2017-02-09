@@ -2,4 +2,8 @@
     <string name="app_name">BeaconApp</string>
     <string name="menu_scan">Scan</string>
     <string name="menu_emulate">Emulate</string>
+    <string name="info_permission">This app needs access to your location in order to work.</string>
+    <string name="action_permission">Grant permission</string>
+    <string name="snackbar_beacon_added">New beacon found</string>
+    <string name="action_expand">Show</string>
 </resources>

@@ -5,6 +5,7 @@ package bell.beaconapp.ui.adapter;
  */
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,11 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
     ArrayList<Beacon> mDataSet;
 
     /**
+     * To inform other classes about new beacons.
+     */
+    OnBeaconAddedListener mOnBeaconAddedListener;
+
+    /**
      * Creates BeaconListAdapter for the use with RecyclerView.
      *
      * @param context Used to inflate layouts.
@@ -43,6 +49,14 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
         mContext = context;
         mExpandedPosition = -1;
         mDataSet = new ArrayList<>();
+    }
+
+    /**
+     * Set OnBeaconAddedListener.
+     * @param onBeaconAddedListener The listener.
+     */
+    public void setOnBeaconAddedListener (@NonNull OnBeaconAddedListener onBeaconAddedListener) {
+        mOnBeaconAddedListener = onBeaconAddedListener;
     }
 
     /**
@@ -59,7 +73,13 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
         } else {
             mDataSet.add(beacon);
             notifyItemInserted(mDataSet.size() - 1);
+            mOnBeaconAddedListener.onBeaconAdded(beacon);
         }
+    }
+
+    public void setExpanded (Beacon beacon) {
+        mExpandedPosition = getIndexOfBeacon(beacon);
+        notifyItemChanged(getIndexOfBeacon(beacon));
     }
 
     /**
@@ -103,12 +123,7 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
     }
 
     private int getIndexOfBeacon(Beacon beacon) {
-        for (int i = 0; i < mDataSet.size(); i++) {
-            if (beacon.getUuid().equals(mDataSet.get(i).getUuid())) {
-                return i;
-            }
-        }
-        return 0;
+        return mDataSet.indexOf(beacon);
     }
 
     /*private boolean beaconAlreadyExist(Beacon beacon) {
@@ -147,5 +162,9 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
             mListDistance.setText(beacon.getDistance() + "m");
             mDetailDistance.setText(beacon.getDistance() + "m");
         }
+    }
+
+    public interface OnBeaconAddedListener {
+        void onBeaconAdded (Beacon beacon);
     }
 }
