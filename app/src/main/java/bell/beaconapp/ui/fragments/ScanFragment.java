@@ -91,9 +91,19 @@ public class ScanFragment extends Fragment implements BeaconListAdapter.OnBeacon
         setScanSettings();
         setScanFilter();
 
-        mBluetoothScanner.startScan(mScanCallback);
-
         return root;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mBluetoothScanner.startScan(mScanCallback);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mBluetoothScanner.stopScan(mScanCallback);
     }
 
     private void setScanFilter() {
