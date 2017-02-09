@@ -8,8 +8,8 @@ android {
         applicationId "bell.beaconapp"
         minSdkVersion 21
         targetSdkVersion 24
-        versionCode 3
-        versionName "0.1_2"
+        versionCode 4
+        versionName "0.1_3"
     }
     buildTypes {
         release {

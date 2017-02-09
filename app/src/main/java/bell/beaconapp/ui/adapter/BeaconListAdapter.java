@@ -53,9 +53,10 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
 
     /**
      * Set OnBeaconAddedListener.
+     *
      * @param onBeaconAddedListener The listener.
      */
-    public void setOnBeaconAddedListener (@NonNull OnBeaconAddedListener onBeaconAddedListener) {
+    public void setOnBeaconAddedListener(@NonNull OnBeaconAddedListener onBeaconAddedListener) {
         mOnBeaconAddedListener = onBeaconAddedListener;
     }
 
@@ -77,7 +78,7 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
         }
     }
 
-    public void setExpanded (Beacon beacon) {
+    public void setExpanded(Beacon beacon) {
         mExpandedPosition = getIndexOfBeacon(beacon);
         notifyItemChanged(getIndexOfBeacon(beacon));
     }
@@ -141,9 +142,15 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
         public View mDetails;
         public View mList;
         public TextView mListTitle;
-        public TextView mDetailTitle;
         public TextView mListDistance;
+
+        public TextView mDetailTitle;
         public TextView mDetailDistance;
+        public TextView mDetailRssi;
+        public TextView mDetailTxPower;
+        public TextView mDetailMinMa;
+        public TextView mDetailUuid;
+        public TextView mDetailManId;
 
         public BeaconListViewHolder(View itemView) {
             super(itemView);
@@ -154,17 +161,27 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
             mDetailTitle = (TextView) itemView.findViewById(R.id.beacon_detail_title);
             mListDistance = (TextView) itemView.findViewById(R.id.beacon_list_distance);
             mDetailDistance = (TextView) itemView.findViewById(R.id.beacon_detail_distance);
+            mDetailRssi = (TextView) itemView.findViewById(R.id.beacon_detail_rssi);
+            mDetailTxPower = (TextView) itemView.findViewById(R.id.beacon_detail_txpower);
+            mDetailMinMa = (TextView) itemView.findViewById(R.id.beacon_detail_minma);
+            mDetailUuid = (TextView) itemView.findViewById(R.id.beacon_detail_uuid);
+            mDetailManId = (TextView) itemView.findViewById(R.id.beacon_detail_manid);
         }
 
         public void applyBeacon(Beacon beacon) {
             mListTitle.setText(beacon.getDeviceName());
             mDetailTitle.setText(beacon.getDeviceName());
-            mListDistance.setText(beacon.getDistance() + "m");
+            mListDistance.setText(Math.round(beacon.getDistance()) + "m");
             mDetailDistance.setText(beacon.getDistance() + "m");
+            mDetailRssi.setText(beacon.getRssi() + "");
+            mDetailTxPower.setText(beacon.getTxPower() + "");
+            mDetailMinMa.setText(beacon.getMinor() + ":" + beacon.getMajor());
+            mDetailUuid.setText(beacon.getUuid() + "");
+            mDetailManId.setText(beacon.getManId() + "");
         }
     }
 
     public interface OnBeaconAddedListener {
-        void onBeaconAdded (Beacon beacon);
+        void onBeaconAdded(Beacon beacon);
     }
 }
