@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.UserManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.PagerAdapter;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             init();
         }
+
     }
 
     private void init() {

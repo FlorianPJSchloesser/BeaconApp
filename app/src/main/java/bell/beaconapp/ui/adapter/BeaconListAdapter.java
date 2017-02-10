@@ -15,7 +15,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import bell.beaconapp.R;
-import bell.beaconapp.model.Beacon;
+import bell.beaconapp.model.*;
 
 
 public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.BeaconListViewHolder> {
@@ -65,17 +65,21 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
      *
      * @param beacon Beacon to add.
      */
-    public void add(Beacon beacon) {
+    public void add(BeaconResult beacon) {
         if (mDataSet.contains(beacon)) {
             int beaconIndex = getIndexOfBeacon(beacon);
-            mDataSet.remove(beacon);
-            mDataSet.add(beaconIndex, beacon);
+            mDataSet.get(beaconIndex).update(beacon);
             notifyItemChanged(beaconIndex);
         } else {
-            mDataSet.add(beacon);
+            Beacon newBeacon = new Beacon(beacon);
+            mDataSet.add(newBeacon);
             notifyItemInserted(mDataSet.size() - 1);
-            mOnBeaconAddedListener.onBeaconAdded(beacon);
+            mOnBeaconAddedListener.onBeaconAdded(newBeacon);
         }
+    }
+
+    public void onBeaconResult(BeaconResult beaconResult) {
+
     }
 
     public void setExpanded(Beacon beacon) {
@@ -123,7 +127,7 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
         });
     }
 
-    private int getIndexOfBeacon(Beacon beacon) {
+    private int getIndexOfBeacon(BeaconSuper beacon) {
         return mDataSet.indexOf(beacon);
     }
 
@@ -175,7 +179,7 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
             mDetailDistance.setText(beacon.getDistance() + "m");
             mDetailRssi.setText(beacon.getRssi() + "");
             mDetailTxPower.setText(beacon.getTxPower() + "");
-            mDetailMinMa.setText(beacon.getMinor() + ":" + beacon.getMajor());
+            mDetailMinMa.setText(beacon.getMajor() + ":" +  beacon.getMinor());
             mDetailUuid.setText(beacon.getUuid() + "");
             mDetailManId.setText(beacon.getManId() + "");
         }

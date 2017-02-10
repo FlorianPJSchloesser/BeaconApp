@@ -32,6 +32,7 @@ import java.util.UUID;
 
 import bell.beaconapp.R;
 import bell.beaconapp.model.Beacon;
+import bell.beaconapp.model.BeaconResult;
 import bell.beaconapp.ui.adapter.BeaconListAdapter;
 
 /**
@@ -61,13 +62,15 @@ public class ScanFragment extends Fragment implements BeaconListAdapter.OnBeacon
                 byte[] mBytes = mScanRecord.getBytes();
                 int mRssi = result.getRssi();
                 byte[] manData = mScanRecord.getManufacturerSpecificData(76);
-                Beacon res = new Beacon(manData, mRssi, mScanRecord.getDeviceName());
+                BeaconResult res = new BeaconResult(manData, mRssi, mScanRecord.getDeviceName());
+
                 Log.d(TAG, "Scan Beacon! " + mScanRecord.getDeviceName() + ":");
                 Log.d(TAG, res.getManId() + ":" + res.getUuid());
                 Log.d(TAG, res.getMajor() + ":" + res.getMinor());
                 Log.d(TAG, res.getRssi() + "/" + res.getTxPower());
                 Log.d(TAG, res.getDistance() + "m");
                 Log.d(TAG, toHexString(mScanRecord.getManufacturerSpecificData(76)));
+
                 mBeaconListAdapter.add(res);
             }
         }
