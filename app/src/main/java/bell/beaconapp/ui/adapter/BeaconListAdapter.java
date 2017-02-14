@@ -38,7 +38,7 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
     /**
      * To inform other classes about new beacons.
      */
-    OnBeaconAddedListener mOnBeaconAddedListener;
+    OnBeaconListChangedListener mOnBeaconListChangedListener;
 
     /**
      * Creates BeaconListAdapter for the use with RecyclerView.
@@ -52,12 +52,12 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
     }
 
     /**
-     * Set OnBeaconAddedListener.
+     * Set OnBeaconListChangedListener.
      *
-     * @param onBeaconAddedListener The listener.
+     * @param onBeaconListChangedListener The listener.
      */
-    public void setOnBeaconAddedListener(@NonNull OnBeaconAddedListener onBeaconAddedListener) {
-        mOnBeaconAddedListener = onBeaconAddedListener;
+    public void setOnBeaconListChangedListener(@NonNull OnBeaconListChangedListener onBeaconListChangedListener) {
+        mOnBeaconListChangedListener = onBeaconListChangedListener;
     }
 
     /**
@@ -74,8 +74,12 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
             Beacon newBeacon = new Beacon(beacon);
             mDataSet.add(newBeacon);
             notifyItemInserted(mDataSet.size() - 1);
-            mOnBeaconAddedListener.onBeaconAdded(newBeacon);
+            mOnBeaconListChangedListener.onBeaconAdded(newBeacon);
         }
+    }
+
+    public Beacon getBeaconOnIndex(int position) {
+        return mDataSet.get(position);
     }
 
     public void onBeaconResult(BeaconResult beaconResult) {
@@ -185,7 +189,8 @@ public class BeaconListAdapter extends RecyclerView.Adapter<BeaconListAdapter.Be
         }
     }
 
-    public interface OnBeaconAddedListener {
+    public interface OnBeaconListChangedListener {
         void onBeaconAdded(Beacon beacon);
+        void onBeaconRemoved();
     }
 }

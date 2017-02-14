@@ -9,6 +9,7 @@ import java.util.Random;
  */
 public class Beacon extends BeaconSuper{
     private int distCount;
+    private double[] location;
 
     public Beacon(byte[] frame, int rssi, String deviceName) {
         super(frame,rssi, deviceName);
@@ -16,6 +17,7 @@ public class Beacon extends BeaconSuper{
 
     public Beacon(BeaconResult result) {
         super(result);
+
     }
 
     @Override
@@ -27,6 +29,29 @@ public class Beacon extends BeaconSuper{
         mRssi = beacon.getRssi();
         mTxPower = beacon.getTxPower();
         setDistance(beacon.getDistance());
+    }
+
+    public double[] getLocation() {
+        double[] rLocation = new double[3];
+        switch(getDeviceName()) {
+            case "CCBPbeacon00001":
+                rLocation[0] = 0;
+                rLocation[1] = 0;
+                rLocation[2] = 0;
+                break;
+            case "CCBPbeacon00002":
+                rLocation[0] = 0;
+                rLocation[1] = 9.7;
+                rLocation[2] = 0;
+                break;
+            case "CCBPbeacon00003":
+                rLocation[0] = 4.2;
+                rLocation[1] = 0;
+                rLocation[2] = 0;
+                break;
+
+        }
+        return rLocation;
     }
 
 }
