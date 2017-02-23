@@ -7,4 +7,5 @@
     <string name="snackbar_beacon_added">New beacon found</string>
     <string name="action_expand">Show</string>
     <string name="no_beacons_found">No beacons found!\n\nScanning...</string>
+    <string name="app_service_description">This service scans for new beacons!</string>
 </resources>

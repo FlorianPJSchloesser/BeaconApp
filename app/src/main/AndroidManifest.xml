@@ -21,6 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <service android:name=".background.ScanService"
+                 android:description="@string/app_service_description"
+                 android:label="ScanService"
+                 android:exported="false" />
     </application>
 
 </manifest>
