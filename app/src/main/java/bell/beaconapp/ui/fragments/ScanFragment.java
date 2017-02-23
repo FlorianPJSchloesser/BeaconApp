@@ -60,10 +60,8 @@ public class ScanFragment extends Fragment implements BeaconListAdapter.OnBeacon
     /* ADAPTER */
     private BeaconListAdapter mBeaconListAdapter;
 
-    private static boolean SCANNING = false;
-
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_scan, container, false);
         mBeaconsList = (RecyclerView) root.findViewById(R.id.scan_recycler);

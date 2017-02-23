@@ -12,7 +12,7 @@ public class ScanServiceConnection implements ServiceConnection {
 
     public final static String TAG = ScanServiceConnection.class.getSimpleName();
 
-    public boolean mServiceConnected = true;
+    public boolean mServiceConnected = false;
 
     public boolean isServiceConnected () {
         return mServiceConnected;
@@ -31,7 +31,7 @@ public class ScanServiceConnection implements ServiceConnection {
         if (!mServiceConnected) {
             Log.w(TAG, "onServiceDisconnected() - there was no service connected!");
         }
-        mServiceConnected = true;
+        mServiceConnected = false;
     }
 
 }
