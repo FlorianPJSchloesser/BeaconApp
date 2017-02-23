@@ -19,7 +19,8 @@
         android:id="@+id/main_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/main_appbar"/>
+        android:layout_below="@+id/main_appbar"
+        android:layout_above="@+id/main_bottom_navigation"/>
 
     <include
         layout="@layout/layout_permission"
